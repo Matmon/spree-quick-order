@@ -1,7 +1,7 @@
 SpreeQuickOrder
 ===============
 
-Creates an order form page allowing the customer to enter a quantity and a known sku to populate the cart
+Creates an order form page allowing the customer to enter a quantity and a sku to populate the cart
 
 
 Example
@@ -11,6 +11,8 @@ Example goes here.
 
 Testing
 -------
+
+Still Need to setup tests
 
 Be sure to add the rspec-rails gem to your Gemfile and then create a dummy test app for the specs to run against.
 

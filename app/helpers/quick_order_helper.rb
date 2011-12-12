@@ -1,0 +1,2 @@
+module QuickOrderHelper
+end
