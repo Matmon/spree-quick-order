@@ -2,7 +2,7 @@
 <% fid = fid.nil? ? '' : fid %>
 <% fclass = fclass.nil? ? 'spree_quick_order_fieldset' : fclass %>
 
-<%= form_tag :url => sku_populate_cart_path do |f| %>
+<%= form_tag(sku_populate_cart_path, :method=>'post') do |f| %>
 <fieldset id="<%= fid %>" class="<%= fclass %>">
 <span class="spree_quick_order_qty">Qty</span><span class="spree_quick_order_sku">SKU</span>
   <% rows.times do |i| %>
