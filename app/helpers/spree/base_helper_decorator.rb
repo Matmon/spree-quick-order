@@ -4,7 +4,7 @@ Spree::BaseHelper.module_eval do
     
     opt        = args.extract_options!
     fid        = opt.fetch(:id)    { '' }
-    fclass     = opt.fetch(:class) { 'spree_quick_order_fieldset' }
+    fclass     = opt.fetch(:class) { 'spree_quick_order_form' }
 
     render :partial => 'quick_order/form', :locals => { :rows => rows, :fid => fid, :fclass => fclass }
     
