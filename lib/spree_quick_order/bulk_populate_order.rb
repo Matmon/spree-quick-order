@@ -1,7 +1,10 @@
 module SpreeQuickOrder
 	class BulkPopulateOrder
 		include ActionView::Helpers::TagHelper
-		#attr_reader :error_messages, :bulk_order 
+		
+		# Accepts the current spree order object and the rows sku params
+		# checks if each sku is valid and adds to order
+		# otherwise sets error messages
 
 		def initialize(order, cartrows)
 			
@@ -14,17 +17,13 @@ module SpreeQuickOrder
 
 				       order.add_variant(product_variant, quantity) if quantity > 0 && !product_variant.nil? && product_variant.available?
 				       
-				       @error_messages << "Product SKU #{variant_sku} Not Found" if !variant_sku.empty? && product_variant.nil?
+				       @error_messages << "SKU Not Found: #{variant_sku}" if !variant_sku.empty? && product_variant.nil?
 			    end 
 			else
 				@error_messages << "You Must Enter a Product SKU"
 			end
 			
 			@bulk_order = order 
-
-			#@bulk_order = {:order => order, :error_messages => @error_messages}
-
-			#return @bulk_order
 
 		end
 
