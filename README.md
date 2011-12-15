@@ -7,7 +7,7 @@ Install
 =======
 
 1. Add the following to your Gemfile
-    `gem 'spree_featured_taxon', :git => 'git://github.com/Matmon/spree-quick-order.git'`
+    `gem 'spree_quick_order', :git => 'git://github.com/Matmon/spree-quick-order.git'`
 
 2. Run
     `bundle install`
