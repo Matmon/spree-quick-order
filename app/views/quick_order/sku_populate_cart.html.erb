@@ -1,1 +1,33 @@
-sku_populate_cart.html.erb
+<% content_for :sidebar do %>
+  <div data-hook="homepage_sidebar_navigation">
+    <%= render 'shared/taxonomies' %>
+  </div>
+<% end %>
+
+<h1><%= t(:quick_order_form) %></h1>
+
+
+<%= form_tag( sku_populate_cart_path, :method=>'post') do |f| %>
+<fieldset>
+<span class="spree_quick_order_sku">SKU</span><span class="spree_quick_order_qty">Qty</span>
+  
+  <% @bulk_order.rows.each_with_index do |r, i| %>  
+	  <p class="<%= r.last["error"] ? 'bulk_error_row' : '' %>" ><%= text_field_tag ("quickcartrows[#{i}][sku]"), "#{r.last["sku"]}", :class => 'title', :size => 15 %>
+	  <%= number_field_tag ("quickcartrows[#{i}][quantity]"), "#{r.last["quantity"]}", :class => 'title', :size => 3, :min => 1 %></p>
+  <% end if @bulk_order.has_rows? %>
+
+  <% (10 - @bulk_order.rows.size).times do |i| %>
+	  <p><%= text_field_tag ("quickcartrows[#{@bulk_order.rows.size + i}][sku]"), "", :class => 'title', :size => 15, :min => 1 %>
+	  <%= number_field_tag ("quickcartrows[#{@bulk_order.rows.size + i}][quantity]"), 1, :class => 'title', :size => 3, :min => 1 %></p>
+  <% end %>
+
+  <%= button_tag :class => 'small primary', :id => 'add-to-cart-button' do %>
+    <%= image_tag('icons/add-to-cart.png') + t(:add_to_cart) %>
+  <% end %>
+</fieldset>
+<% end %>
+
+
+<%= debug(params[:quickcartrows]) %>
+
+<%= params[:quickcartrows].inspect %>

@@ -1,49 +1,79 @@
 module SpreeQuickOrder
-	class BulkPopulateOrder
-		include ActionView::Helpers::TagHelper
-		
-		# Accepts the current spree order object and the rows sku params
-		# checks if each sku is valid and adds to order
-		# otherwise sets error messages
+  class BulkPopulateOrder
+    include ActionView::Helpers::TagHelper
+    
+    # Accepts the current spree order object and the rows sku params
+    # checks if each sku is valid and adds to order
+    # otherwise sets error messages
 
-		def initialize(order, cartrows)
-			
-			@error_messages = []
-			if !cartrows.nil?
-				cartrows.each do |k, v|
-				       variant_sku = v[:sku].strip
-				       quantity = v[:quantity].to_i
-				       product_variant = Variant.find_by_sku(variant_sku) unless variant_sku.empty?
+    def initialize(order, cartrows)
+      
+      @rows = Hash[Array(cartrows)]
 
-				       order.add_variant(product_variant, quantity) if quantity > 0 && !product_variant.nil? && product_variant.available?
-				       
-				       @error_messages << "SKU Not Found: #{variant_sku}" if !variant_sku.empty? && product_variant.nil?
-			    end 
-			else
-				@error_messages << "You Must Enter a Product SKU"
-			end
-			
-			@bulk_order = order 
+      @error_messages = []
+      
+      @rows.delete_if{ |k,v| v[:sku].empty? }
+      
+      if @rows.size > 0 
+        
+        @rows.each do |k, v|
+          variant_sku = v[:sku].strip
+          quantity = v[:quantity].to_i
 
-		end
+          product_variant = Variant.find_by_sku(variant_sku) # unless variant_sku.empty? ## should no longer be empty since we delete empty rows above
 
-        def bulk_order
-			return @bulk_order
-        end
+          v[:variant] = product_variant
+         
+          if product_variant.nil?
+            v[:error] = true
+            @error_messages << "SKU Not Found: #{variant_sku}" 
+          end
 
-        def error_messages
-        	return @error_messages
-        end
+          if quantity < 1
+            v[:error] = true
+            @error_messages << "Enter a Valid Quantity for SKU: #{variant_sku}" 
+          end
 
-        def formatted_error_messages
-        	@error_messages.map do |e|
-        		content_tag(:li, e)
-        	end.join("\n").html_safe()
-	    end
+        end 
+        
+        ## no errors add product variants to order
+        @rows.each do |k , v|
+          order.add_variant(v[:variant], v[:quantity].to_i)
+        end unless self.has_error_messages?
 
-		def has_error_messages?
-			return !@error_messages.empty?
-		end
+      else 
+        @error_messages << "You Must Enter at least one Product SKU"
+      end
+      
+      # @bulk_order = order 
 
-	end
+    end
+
+    def rows
+      return @rows
+    end
+
+    def has_rows?
+      return @rows.size > 0
+    end
+
+    def bulk_order
+      return @bulk_order
+    end
+
+    def error_messages
+      return @error_messages
+    end
+
+    def formatted_error_messages
+      @error_messages.map do |e|
+        content_tag(:li, e)
+      end.join("\n").html_safe()
+    end
+
+    def has_error_messages?
+      return !@error_messages.empty?
+    end
+
+  end
 end
