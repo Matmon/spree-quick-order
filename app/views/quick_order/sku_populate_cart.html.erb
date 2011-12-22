@@ -16,9 +16,9 @@
 	  <%= number_field_tag ("quickcartrows[#{i}][quantity]"), "#{r.last["quantity"]}", :class => 'title', :size => 3, :min => 1 %></p>
   <% end if @bulk_order.has_rows? %>
 
-  <% (10 - @bulk_order.rows.size).times do |i| %>
-	  <p><%= text_field_tag ("quickcartrows[#{@bulk_order.rows.size + i}][sku]"), "", :class => 'title', :size => 15, :min => 1 %>
-	  <%= number_field_tag ("quickcartrows[#{@bulk_order.rows.size + i}][quantity]"), 1, :class => 'title', :size => 3, :min => 1 %></p>
+  <% (@bulk_order.has_rows? ? @bulk_order.rows.size : 0).upto(9) do |i| %>
+	  <p><%= text_field_tag ("quickcartrows[#{i}][sku]"), "", :class => 'title', :size => 15, :min => 1 %>
+	  <%= number_field_tag ("quickcartrows[#{i}][quantity]"), 1, :class => 'title', :size => 3, :min => 1 %></p>
   <% end %>
 
   <%= button_tag :class => 'small primary', :id => 'add-to-cart-button' do %>
