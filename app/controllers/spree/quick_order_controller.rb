@@ -1,4 +1,4 @@
-class QuickOrderController < Spree::BaseController
+class Spree::QuickOrderController < Spree::BaseController
   helper 'spree/products'
   respond_to :html
 
