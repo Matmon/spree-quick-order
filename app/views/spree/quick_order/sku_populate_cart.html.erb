@@ -1,6 +1,6 @@
 <% content_for :sidebar do %>
   <div data-hook="homepage_sidebar_navigation">
-    <%= render 'shared/taxonomies' %>
+    <%= render 'spree/shared/taxonomies' %>
   </div>
 <% end %>
 
@@ -10,8 +10,8 @@
 <%= form_tag( sku_populate_cart_path, :method=>'post') do |f| %>
 <fieldset>
 <span class="spree_quick_order_sku">SKU</span><span class="spree_quick_order_qty">Qty</span>
-  
-  <% @bulk_order.rows.each_with_index do |r, i| %>  
+
+  <% @bulk_order.rows.each_with_index do |r, i| %>
 	  <p class="<%= r.last["error"] ? 'bulk_error_row' : '' %>" ><%= text_field_tag ("quickcartrows[#{i}][sku]"), "#{r.last["sku"]}", :class => 'title', :size => 15 %>
 	  <%= number_field_tag ("quickcartrows[#{i}][quantity]"), "#{r.last["quantity"]}", :class => 'title', :size => 3, :min => 1 %></p>
   <% end if @bulk_order.has_rows? %>
