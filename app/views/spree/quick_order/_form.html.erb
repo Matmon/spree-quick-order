@@ -2,15 +2,15 @@
 <% fid = fid.nil? ? '' : fid %>
 <% fclass = fclass.nil? ? 'spree_quick_order_fieldset' : fclass %>
 
-<%= form_tag( sku_populate_cart_path, :method=>'post', :class=>fclass, :id=>fid ) do |f| %>
+<%= form_tag(sku_populate_cart_path, :method=>'post', :class=>fclass, :id=>fid ) do |f| %>
 <fieldset>
 <span class="spree_quick_order_sku">SKU</span><span class="spree_quick_order_qty">Qty</span>
   <% rows.times do |i| %>
-	  <p><%= text_field_tag ("quickcartrows[#{i}][sku]"), "", :class => 'spos_sku', :size => 15, :min => 1 %>
-	  <%= number_field_tag ("quickcartrows[#{i}][quantity]"), 1, :class => 'spos_qty', :size => 3, :min => 1 %></p>
+    <p><%= text_field_tag ("quickcartrows[#{i}][sku]"), "", :class => 'spos_sku', :size => 15, :min => 1 %>
+      <%= number_field_tag ("quickcartrows[#{i}][quantity]"), 1, :class => 'spos_qty', :size => 3, :min => 1 %></p>
   <% end %>
-  <%= button_tag :class => 'small primary', :id => 'add-to-cart-button' do %>
-    <%= image_tag('icons/add-to-cart.png') + t(:add_to_cart) %>
+  <%= button_tag :class => 'large primary', :id => 'add-to-cart-button' do %>
+    <%= image_tag('icons/add-to-cart.png') + t(:order_now) %>
   <% end %>
 </fieldset>
 <% end %>
