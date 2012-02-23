@@ -9,8 +9,8 @@
     <p><%= text_field_tag ("quickcartrows[#{i}][sku]"), "", :class => 'spos_sku', :size => 15, :min => 1 %>
       <%= number_field_tag ("quickcartrows[#{i}][quantity]"), 1, :class => 'spos_qty', :size => 3, :min => 1 %></p>
   <% end %>
-  <%= button_tag :class => 'large primary', :id => 'add-to-cart-button' do %>
-    <%= image_tag('icons/add-to-cart.png') + t(:order_now) %>
+  <%= button_tag :class => 'large primary', :id => 'quick_order-add-to-cart-button' do %>
+    <%= t(:order_now) %>
   <% end %>
 </fieldset>
 <% end %>
